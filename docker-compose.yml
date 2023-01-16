@@ -55,8 +55,24 @@ services:
     labels:
         com.centurylinklabs.watchtower.enable: 'true'
 
+  caddy:
+    image: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
 networks:
   wg-easy:
     ipam:
       config:
         - subnet: 10.8.1.0/24
+      
+volumes:
+  caddy_data:
+  caddy_config:
