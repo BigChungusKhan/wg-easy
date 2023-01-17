@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const expressSession = require('express-session');
 const debug = require('debug')('Server');
+const cors = require('cors');
 
 const Util = require('./Util');
 const ServerError = require('./ServerError');
@@ -16,13 +17,31 @@ const {
   PASSWORD,
 } = require('../config');
 
+const corsOptionsDelegate = (req, callback) => {
+  const allowlist = process.env.CORS_LIST ? (process.env.CORS_LIST).split(',') : [];
+  let corsOptions = null;
+
+  if (!!allowlist.length && allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = {
+      origin: true,
+    };
+  } else {
+    corsOptions = {
+      origin: false,
+    };
+  }
+
+  callback(null, corsOptions);
+};
+
 module.exports = class Server {
 
   constructor() {
     // Express
     this.app = express()
       .disable('etag')
-      .use('/', express.static(path.join(__dirname, '..', 'www')))
+      .options('*', cors(corsOptionsDelegate))
+      /* .use('/', express.static(path.join(__dirname, '..', 'www'))) */
       .use(express.json())
       .use(expressSession({
         secret: String(Math.random()),
