@@ -17,21 +17,18 @@ const {
   PASSWORD,
 } = require('../config');
 
-const corsOptionsDelegate = (req, callback) => {
-  const allowlist = process.env.CORS_LIST ? (process.env.CORS_LIST).split(',') : [];
-  let corsOptions = null;
-
-  if (!!allowlist.length && allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = {
-      origin: true,
-    };
-  } else {
-    corsOptions = {
-      origin: false,
-    };
-  }
-
-  callback(null, corsOptions);
+const allowlist = process.env.CORS_LIST ? (process.env.CORS_LIST).split(',') : [];
+const corsConf = {
+  origin: (origin, callback) => {
+    if (allowlist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,PUT,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
 };
 
 module.exports = class Server {
@@ -40,7 +37,7 @@ module.exports = class Server {
     // Express
     this.app = express()
       .disable('etag')
-      .options('*', cors(corsOptionsDelegate))
+      .use(cors(corsConf))
       /* .use('/', express.static(path.join(__dirname, '..', 'www'))) */
       .use(express.json())
       .use(expressSession({
