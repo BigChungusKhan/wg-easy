@@ -27,17 +27,17 @@ services:
             wg-easy:
                 ipv4_address: 10.8.1.2
 
-    nginx:
-        image: weejewel/nginx-with-certbot
-        container_name: nginx
-        hostname: nginx
-        volumes:
-            - ~/.nginx/servers/:/etc/nginx/servers/
-            - ./.nginx/letsencrypt/:/etc/letsencrypt/
-        ports:
-            - "80:80/tcp"
-            - "443:443/tcp"
+    caddy:
+        image: caddy
         restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - $PWD/Caddyfile:/etc/caddy/Caddyfile
+            - caddy_data:/data
+            - caddy_config:/config
 
     pihole:
         container_name: pihole
@@ -74,3 +74,7 @@ networks:
         ipam:
             config:
                 - subnet: 10.8.1.0/24
+
+volumes:
+    caddy_data:
+    caddy_config:
