@@ -9,8 +9,8 @@ services:
             - WG_DEFAULT_ADDRESS=10.8.0.x
             - CORS_LIST=${WG_CORS_LIST}
         image: wg-easy
-        #image: weejewel/wg-easy
         container_name: wg-easy
+        hostname: wg-easy
         volumes:
             - ~/.wg-easy:/etc/wireguard
         ports:
@@ -26,6 +26,18 @@ services:
         networks:
             wg-easy:
                 ipv4_address: 10.8.1.2
+
+    nginx:
+        image: weejewel/nginx-with-certbot
+        container_name: nginx
+        hostname: nginx
+        volumes:
+            - ~/.nginx/servers/:/etc/nginx/servers/
+            - ./.nginx/letsencrypt/:/etc/letsencrypt/
+        ports:
+            - "80:80/tcp"
+            - "443:443/tcp"
+        restart: unless-stopped
 
     pihole:
         container_name: pihole
