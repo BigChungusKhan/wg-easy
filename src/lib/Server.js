@@ -23,7 +23,7 @@ const corsConf = {
     if (allowlist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new ServerError('Access Denied', 403, false));
     }
   },
   methods: 'GET,PUT,POST,DELETE',
@@ -38,7 +38,7 @@ module.exports = class Server {
     this.app = express()
       .disable('etag')
       .use(cors(corsConf))
-      /* .use('/', express.static(path.join(__dirname, '..', 'www'))) */
+      .use('/', express.static(path.join(__dirname, '..', 'www')))
       .use(express.json())
       .use(expressSession({
         secret: String(Math.random()),
@@ -68,11 +68,11 @@ module.exports = class Server {
         } = req.body;
 
         if (typeof password !== 'string') {
-          throw new ServerError('Missing: Password', 401);
+          throw new ServerError('Missing: Password', 401, false);
         }
 
         if (password !== PASSWORD) {
-          throw new ServerError('Incorrect Password', 401);
+          throw new ServerError('Incorrect Password', 401, false);
         }
 
         req.session.authenticated = true;
