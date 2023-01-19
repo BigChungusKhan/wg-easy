@@ -62,18 +62,15 @@ services:
         container_name: nginx-ssl-proxy
         hostname: nginx-ssl-proxy
         environment:
-            UPSTREAM: wg-easy:51821
+            UPSTREAM: 127.0.0.1:51821
             SERVERNAME: ronald.veloxvpn.com
         ports:
-            - "80:80"
-            - "443:443"
+            - 80:80
+            - 443:443
         restart: unless-stopped
         volumes:
             - ~/.nginx/servers/:/etc/nginx/servers/
             - ~/.nginx/letsencrypt/:/etc/letsencrypt/
-        networks:
-            wg-easy:
-                ipv4_address: 10.8.1.4
 
 networks:
     wg-easy:
