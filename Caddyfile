@@ -1,3 +1,0 @@
-ronald.veloxvpn.com {
-  reverse_proxy wg-easy:51821
-}
