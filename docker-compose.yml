@@ -62,7 +62,7 @@ services:
         restart: always
         environment:
             UPSTREAM: wg-east:51821
-            SERVERNAME: ronal.veloxvpn.com
+            SERVERNAME: ronald.veloxvpn.com
             #EXTRANAMES: www.test.example.com,test2.example.com
         ports:
             - "80:80"
