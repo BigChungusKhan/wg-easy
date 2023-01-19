@@ -61,7 +61,7 @@ services:
         image: danieldent/nginx-ssl-proxy
         restart: always
         environment:
-            UPSTREAM: wg-east:51821
+            UPSTREAM: wg-easy:51821
             SERVERNAME: ronald.veloxvpn.com
             #EXTRANAMES: www.test.example.com,test2.example.com
         ports:
