@@ -59,16 +59,18 @@ services:
 
     nginx-ssl-proxy:
         image: danieldent/nginx-ssl-proxy
-        restart: always
+        restart: unless-stopped
         environment:
-            UPSTREAM: wg-easy:51821
+            UPSTREAM: 10.8.1.2:51821
             SERVERNAME: ronald.veloxvpn.com
-            #EXTRANAMES: www.test.example.com,test2.example.com
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - ~/.nginx/letsencrypt/:/etc/letsencrypt/
+        networks:
+            wg-easy:
+                ipv4_address: 10.8.1.4
 
 networks:
     wg-easy:
