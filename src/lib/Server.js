@@ -38,7 +38,6 @@ module.exports = class Server {
     this.app = express()
       .disable('etag')
       .use(cors(corsConf))
-      .use('/', express.static(path.join(__dirname, '..', 'www')))
       .use(express.json())
       .use(expressSession({
         secret: String(Math.random()),
