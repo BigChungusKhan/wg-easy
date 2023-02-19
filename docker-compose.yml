@@ -12,7 +12,7 @@ services:
         container_name: wg-easy
         hostname: wg-easy
         volumes:
-            - ~/.wg-easy:/etc/wireguard:rw
+            - /home/server/data/wireguard:/etc/wireguard:rw
         ports:
             - "51820:51820/udp"
             - "51821:51821/tcp"
@@ -52,10 +52,8 @@ services:
             FTLCONF_PRIVACYLEVEL: 3
             FTLCONF_MAXDBDAYS: 0
         volumes:
-            #- /home/server/data/pihole/etc-pihole/:/etc/pihole:rw
-            #- /home/server/data/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d:rw
-            - ~/.pihole/etc-pihole/:/etc/pihole:rw
-            - ~/.pihole/etc-dnsmasq.d/:/etc/dnsmasq.d:rw
+            - /home/server/data/pihole/etc-pihole/:/etc/pihole:rw
+            - /home/server/data/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d:rw
         labels:
             com.centurylinklabs.watchtower.enable: "true"
 
