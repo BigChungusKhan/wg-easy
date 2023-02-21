@@ -3,8 +3,7 @@ version: "3.0"
 services:
     wg-easy:
         environment:
-            - WG_HOST=${ENDPOINT}
-            - PASSWORD=${WG_UI_PASSWORD}
+            - WG_HOST=${WG_ENDPOINT}
             - WG_DEFAULT_DNS=10.8.1.3
             - WG_DEFAULT_ADDRESS=10.8.0.x
             - CORS_LIST=${WG_CORS_LIST}
