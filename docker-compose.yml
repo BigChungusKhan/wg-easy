@@ -31,8 +31,6 @@ services:
         image: cbcrowe/pihole-unbound:latest
         restart: unless-stopped
         networks:
-            proxy:
-                external: false
             wg-easy:
                 ipv4_address: 10.8.1.3
         ports:
