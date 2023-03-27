@@ -57,6 +57,8 @@ services:
             com.centurylinklabs.watchtower.enable: "true"
 
 networks:
+    proxy:
+        external: true
     wg-easy:
         ipam:
             config:
